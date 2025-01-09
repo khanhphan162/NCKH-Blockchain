@@ -8,7 +8,7 @@ const LearnPage = () => {
         <div className="flex flex-row-reverse gap-[48px] px-6">
             <StickyWrapper>
                 <UserProgress
-                    activeCourse={{ title: "Course #1", imageSrc: "/logo.png"}}
+                    activeCourse={{ title: "Course #1", imageSrc: "/en.svg"}}
                     hearts={5}
                     points={100}
                     hasActiveSubscription={false}
