@@ -7,7 +7,7 @@ type Props = {
     description: string;
 };
 
-export const UnitBanner = ({ 
+export const ModuleBanner = ({ 
     title, 
     description 
 }: Props) => {

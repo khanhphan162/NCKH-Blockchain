@@ -1,5 +1,5 @@
 import { lessons, modules } from "@/db/schema";
-import { UnitBanner } from "./unit-banner";
+import { ModuleBanner } from "./module-banner";
 import { LessonButton } from "./lesson-button";
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
     activeLessonPercentage: number;
 }
 
-export const Unit = ({
+export const Module = ({
     id,
     order,
     title,
@@ -28,7 +28,7 @@ export const Unit = ({
 
     return(
         <>
-        <UnitBanner title={title} description={description} />
+        <ModuleBanner title={title} description={description} />
         <div className="flex items-center flex-col relative">
             {lessons.map((lesson, index) => {
                 const isCurrent = lesson.id === activeLesson?.id;
@@ -40,7 +40,7 @@ export const Unit = ({
                     id = {lesson.id}
                     index = {index}
                     totalCount={lessons.length - 1}
-                    current={true || isCurrent} //TODO: Remove hardcoded true
+                    current={isCurrent}
                     locked={isLocked}
                     percentage={activeLessonPercentage}/>
                 )

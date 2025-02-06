@@ -135,7 +135,6 @@ const main = async () => {
                 videoSrc: "https://www.youtube.com/watch?v=SSo_EIwHSd4",
             },
         ]);
-        
 
         console.log("Seeding finished");
     } catch (error) {
