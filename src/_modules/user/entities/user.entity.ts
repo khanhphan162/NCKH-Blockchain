@@ -1,0 +1,10 @@
+import { Role } from '@prisma/client';
+
+export class User {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+  createdAt: Date;
+  updatedAt: Date;
+}
