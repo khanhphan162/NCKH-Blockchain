@@ -63,26 +63,26 @@ export const materialsRelations = relations(materials, ({one, many}) => ({
         fields: [materials.lessonId],
         references: [lessons.id],
     }),
-    // materialOptions: many(materialOptions),
+    materialOptions: many(materialOptions),
     materialProgress: many(materialProgress),
 }));
 
-// export const materialOptions = pgTable("material_options", {
-//     id: serial("id").primaryKey(),
-//     materialId: integer("lesson_id").references(() => materials.id,
-//     {onDelete: "cascade"}).notNull(),
-//     text: text("label").notNull(),
-//     correct: boolean("correct").notNull(),
-//     imageSrc: text("image_src"),
-//     audioSrc: text("audio_src"),
-// });
+export const materialOptions = pgTable("material_options", {
+    id: serial("id").primaryKey(),
+    materialId: integer("lesson_id").references(() => materials.id,
+    {onDelete: "cascade"}).notNull(),
+    text: text("label").notNull(),
+    correct: boolean("correct").notNull(),
+    imageSrc: text("image_src"),
+    audioSrc: text("audio_src"),
+});
 
-// export const materialOptionsRelations = relations(materialOptions, ({one}) => ({
-//     material: one(materials, {
-//         fields: [materialOptions.materialId],
-//         references: [materials.id],
-//     }),
-// }));
+export const materialOptionsRelations = relations(materialOptions, ({one}) => ({
+    material: one(materials, {
+        fields: [materialOptions.materialId],
+        references: [materials.id],
+    }),
+}));
 
 export const materialProgress = pgTable("material_progress", {
     id: serial("id").primaryKey(),

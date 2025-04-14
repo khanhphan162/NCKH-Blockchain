@@ -59,6 +59,9 @@ export const getModules = cache(async () => {
 
     const normalizedData = data.map((module) => {
         const lessonsWithCompletedStatus = module.lessons.map((lesson) => {
+            if (lesson.materials.length === 0) {
+                return{ ...lesson, completed: false};
+            }
             const allCompletedMaterials = lesson.materials.every((material) => {
                 return material.materialProgress
                     && material.materialProgress.length > 0
@@ -154,6 +157,7 @@ export const getLesson = cache(async (id?: number) =>{
             materials: {
                 orderBy: (materials, {asc}) => [asc(materials.order)],
                 with:{
+                    materialOptions: true,
                     materialProgress: {
                         where: eq(materialProgress.userId, userId)
                     }
