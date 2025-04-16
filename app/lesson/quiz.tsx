@@ -1,8 +1,10 @@
 "use client";
 
-import { materialOptions, materials } from "@/db/schema";
+import { questions, answers, materials } from "@/db/schema";
 import { useState } from "react";
 import { Header } from "./header";
+import { LabelBubble } from "./LabelBubble";
+import { Material } from "./Material";
 
 type Props={
     initialPercentage: number;
@@ -10,7 +12,7 @@ type Props={
     initialLessonId: number;
     initialLessonMaterials: (typeof materials.$inferSelect & {
         completed: boolean;
-        materialOptions: typeof materialOptions.$inferSelect[];
+        materialQuestions: typeof questions.$inferSelect[];
     })[];
     userSubscription: any; //TODO: Replace with subcription DB type
 };
@@ -32,7 +34,7 @@ export const Quiz = ({
 
     const material = materials[activeIndex];
 
-    const label = material.label;
+    const content = material.type === "ASSIGNMENT" ? "Complete the assignment" : material.content;
 
     const url = material.videoSrc!;
 
@@ -47,16 +49,22 @@ export const Quiz = ({
                 <div className="h-full flex items-center justify-center">
                     <div className="lg:min-h-[350px] lg:w-[600px] w-full px-6 lg:px-0 flex flex-col gap-y-12">
                         <h1 className="text-lg lg:text-3xl text-center lg:text-start font-bold text-neutral-700">
-                            {label}
-                            <iframe
+                            {content}
+                        </h1>
+                        <div>
+                            {material.type === "ASSIGNMENT" && (
+                                <LabelBubble content={material.content} />
+                            )}
+                            <Material
+                                questions={questions}
+                                answers={answers}/>
+                            {/* {                            <iframe
                                 src={url}
                                 allow='autoplay; encrypted-media'
                                 allowFullScreen
                                 title='video'
                                 />
-                        </h1>
-                        <div>
-                            {/*TODO: Challenge Component */}
+                            } */}
                         </div>
                     </div>
                 </div>

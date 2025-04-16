@@ -51,7 +51,7 @@ export const materials = pgTable("materials", {
     lessonId: integer("lesson_id").references(() => lessons.id,
     {onDelete: "cascade"}).notNull(),
     type: materialsEnum("type").notNull(),
-    label: text("label").notNull(),
+    content: text("content").notNull(),
     order: integer("order").notNull(),
     videoSrc: text("video_src"),
     imageSrc: text("image_src"),
@@ -63,31 +63,49 @@ export const materialsRelations = relations(materials, ({one, many}) => ({
         fields: [materials.lessonId],
         references: [lessons.id],
     }),
-    materialOptions: many(materialOptions),
+    questions: many(questions),
     materialProgress: many(materialProgress),
 }));
 
-export const materialOptions = pgTable("material_options", {
+export const questions = pgTable("questions", {
     id: serial("id").primaryKey(),
-    materialId: integer("lesson_id").references(() => materials.id,
+    materialId: integer("material_id").references(() => materials.id,
     {onDelete: "cascade"}).notNull(),
-    text: text("label").notNull(),
+    content: text("content").notNull(),
+    imageSrc: text("image_src"),
+    audioSrc: text("audio_src"),
+});
+
+export const questionsRelations = relations(questions, ({one, many}) => ({
+    material: one(materials, {
+        fields: [questions.materialId],
+        references: [materials.id],
+    }),
+    answers: many(answers),
+}));
+
+export const answers = pgTable("answers", {
+    id: serial("id").primaryKey(),
+    questionId: integer("question_id").references(() => questions.id,
+    {onDelete: "cascade"}).notNull(),
+    content: text("content").notNull(),
     correct: boolean("correct").notNull(),
     imageSrc: text("image_src"),
     audioSrc: text("audio_src"),
 });
 
-export const materialOptionsRelations = relations(materialOptions, ({one}) => ({
-    material: one(materials, {
-        fields: [materialOptions.materialId],
-        references: [materials.id],
+
+export const answersRelations = relations(answers, ({one}) => ({
+    material: one(questions, {
+        fields: [answers.questionId],
+        references: [questions.id],
     }),
 }));
-
+ 
 export const materialProgress = pgTable("material_progress", {
     id: serial("id").primaryKey(),
     userId: text("user_id").notNull(), // TODO: Confirm this doesn't break
-    materialId: integer("lesson_id").references(() => materials.id,
+    materialId: integer("material_id").references(() => materials.id,
     {onDelete: "cascade"}).notNull(),
     completed: boolean("completed").notNull().default(false),
 });

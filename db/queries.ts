@@ -4,6 +4,7 @@ import db from "@/db/drizzle";
 import { auth } from "@clerk/nextjs/server";
 
 import {
+    answers,
     courses,
     lessons,
     materialProgress,
@@ -157,7 +158,10 @@ export const getLesson = cache(async (id?: number) =>{
             materials: {
                 orderBy: (materials, {asc}) => [asc(materials.order)],
                 with:{
-                    materialOptions: true,
+                    questions: {
+                    with: {
+                        answers: true,
+                    }},
                     materialProgress: {
                         where: eq(materialProgress.userId, userId)
                     }

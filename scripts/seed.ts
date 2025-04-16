@@ -17,7 +17,8 @@ const main = async () => {
         await db.delete(schema.modules);
         await db.delete(schema.lessons);
         await db.delete(schema.materials);
-        await db.delete(schema.materialOptions);
+        await db.delete(schema.questions);
+        await db.delete(schema.answers);
         await db.delete(schema.materialProgress);
 
         await db.insert(schema.courses).values([
@@ -106,7 +107,7 @@ const main = async () => {
                 id: 1,
                 lessonId: 1,
                 type: "VIDEO",
-                label: "Introduction to blockchain",
+                content: "Introduction to blockchain",
                 order: 1,
                 videoSrc: "https://www.youtube.com/embed/SSo_EIwHSd4?si=WyvECWtIXaUCyB8W",
             },
@@ -114,7 +115,7 @@ const main = async () => {
                 id: 2,
                 lessonId: 2,
                 type: "VIDEO",
-                label: "How blockchain works",
+                content: "How blockchain works",
                 order: 1,
                 videoSrc: "https://www.youtube.com/embed/SSo_EIwHSd4?si=WyvECWtIXaUCyB8W",
             },
@@ -122,7 +123,7 @@ const main = async () => {
                 id: 3,
                 lessonId: 3,
                 type: "VIDEO",
-                label: "Blockchain types",
+                content: "Blockchain types",
                 order: 1,
                 videoSrc: "https://www.youtube.com/embed/SSo_EIwHSd4?si=WyvECWtIXaUCyB8W",
             },
@@ -130,7 +131,7 @@ const main = async () => {
                 id: 4,
                 lessonId: 4,
                 type: "VIDEO",
-                label: "Blockchain components",
+                content: "Blockchain components",
                 order: 1,
                 videoSrc: "https://www.youtube.com/embed/SSo_EIwHSd4?si=WyvECWtIXaUCyB8W",
             },
