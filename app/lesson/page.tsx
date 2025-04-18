@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import {getLesson, getUserProgress} from "@/db/queries";
-import { Quiz } from "./quiz";
+import { Lesson } from "./lesson";
 
 const LessonPage = async () => {
     const lessonData = getLesson();
@@ -22,7 +22,7 @@ const LessonPage = async () => {
     const initialPercentage = lesson.materials.filter((material) => material.completed).length / lesson.materials.length * 100;
 
     return (
-        <Quiz
+        <Lesson
             initialLessonId={lesson.id}
             initialLessonMaterials={lesson.materials}
             initialHearts={userProgress.hearts}

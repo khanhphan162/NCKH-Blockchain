@@ -3,8 +3,8 @@
 import { questions, answers, materials } from "@/db/schema";
 import { useState } from "react";
 import { Header } from "./header";
-import { LabelBubble } from "./LabelBubble";
-import { Material } from "./Material";
+import { ContentBubble } from "./content-bubble";
+import { Question } from "./question";
 
 type Props={
     initialPercentage: number;
@@ -12,12 +12,14 @@ type Props={
     initialLessonId: number;
     initialLessonMaterials: (typeof materials.$inferSelect & {
         completed: boolean;
-        materialQuestions: typeof questions.$inferSelect[];
+        questions: (typeof questions.$inferSelect & {
+            answers: typeof answers.$inferSelect[];
+        })[];
     })[];
     userSubscription: any; //TODO: Replace with subcription DB type
 };
 
-export const Quiz = ({
+export const Lesson = ({
     initialPercentage,
     initialHearts,
     initialLessonId,
@@ -33,6 +35,7 @@ export const Quiz = ({
     });
 
     const material = materials[activeIndex];
+    const questions = material?.questions ?? [];
 
     const content = material.type === "ASSIGNMENT" ? "Complete the assignment" : material.content;
 
@@ -53,11 +56,15 @@ export const Quiz = ({
                         </h1>
                         <div>
                             {material.type === "ASSIGNMENT" && (
-                                <LabelBubble content={material.content} />
+                                <ContentBubble content={material.content} />
                             )}
-                            <Material
+                            <Question
                                 questions={questions}
-                                answers={answers}/>
+                                onSelect={()=>{}}
+                                status="none"
+                                selectedAnswer={undefined}
+                                disabled={false}
+                                type={material.type}/>
                             {/* {                            <iframe
                                 src={url}
                                 allow='autoplay; encrypted-media'

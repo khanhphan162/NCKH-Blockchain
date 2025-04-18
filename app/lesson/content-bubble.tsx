@@ -4,7 +4,7 @@ type Props = {
     content: string;
 };
 
-export const LabelBubble = ({content}: Props) => {
+export const ContentBubble = ({content}: Props) => {
     return(
         <div className="flex items-center gap-x-4 mb-6">
             <Image
