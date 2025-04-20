@@ -18,6 +18,8 @@ export const Question = ({
     disabled,
     type
 }: Props) => {
+    const score = [];
+    const totalQuestions = questions.length;
     return (
         <div>
             {questions.map((question, j) => {
