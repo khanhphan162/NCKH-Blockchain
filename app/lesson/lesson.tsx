@@ -37,6 +37,10 @@ export const Lesson = ({
     const material = materials[activeIndex];
     const questions = material?.questions ?? [];
 
+    const onNext = () => {
+        setActiveIndex((current) => current + 1);
+    }
+
     const content = material.type === "ASSIGNMENT" ? "Complete the assignment" : material.content;
 
     const url = material.videoSrc!;
@@ -60,9 +64,6 @@ export const Lesson = ({
                             )}
                             <Question
                                 questions={questions}
-                                onSelect={()=>{}}
-                                status="none"
-                                selectedAnswer={undefined}
                                 disabled={false}
                                 type={material.type}/>
                             {/* {                            <iframe
