@@ -1,7 +1,7 @@
 "use client";
 
 import { questions, answers, materials } from "@/db/schema";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Header } from "./header";
 import { ContentBubble } from "./content-bubble";
 import { Question } from "./question";
@@ -26,6 +26,8 @@ export const Lesson = ({
     initialLessonMaterials,
     userSubscription
 }: Props) =>{
+    const [pending, startTransition] = useTransition();
+
     const [hearts, setHearts] = useState(initialHearts);
     const [percentage, setPercentages] = useState(initialPercentage);
     const[materials] = useState(initialLessonMaterials);
@@ -38,7 +40,18 @@ export const Lesson = ({
     const questions = material?.questions ?? [];
 
     const onNext = () => {
-        setActiveIndex((current) => current + 1);
+        const updatedMaterials = [...materials];
+        updatedMaterials[activeIndex].completed = true;
+        
+        const completedCount = updatedMaterials.filter(material => material.completed).length;
+        const newPercentage = (completedCount / updatedMaterials.length) * 100;
+        setPercentages(newPercentage);
+        
+        if (activeIndex < materials.length - 1) {
+            setActiveIndex((current) => current + 1);
+        } else {
+            window.location.href = "/learn";
+        }
     }
 
     const content = material.type === "ASSIGNMENT" ? "Complete the assignment" : material.content;
@@ -65,8 +78,11 @@ export const Lesson = ({
                             <Question
                                 questions={questions}
                                 disabled={false}
-                                type={material.type}/>
-                            {/* {                            <iframe
+                                type={material.type}
+                                onNext={onNext}
+                            />
+                            {/* {                            
+                            <iframe
                                 src={url}
                                 allow='autoplay; encrypted-media'
                                 allowFullScreen
