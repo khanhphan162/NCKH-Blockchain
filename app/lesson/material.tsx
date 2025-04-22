@@ -19,7 +19,7 @@ type Props={
     userSubscription: any; //TODO: Replace with subcription DB type
 };
 
-export const Lesson = ({
+export const Material = ({
     initialPercentage,
     initialHearts,
     initialLessonId,

@@ -69,6 +69,7 @@ export const Question = ({
         setScore(calculatedScore);
 
         if (calculatedScore >= passingScore) {
+            
             setStatus("correct");
         } else {
             setStatus("wrong");
@@ -110,7 +111,7 @@ export const Question = ({
             ))}
 
             <Footer
-                disabled={!isAllQuestionsAnswered}
+                disabled={!(isAllQuestionsAnswered || totalQuestions === 0)}
                 status={status}
                 onCheck={onComplete}
                 lessonId={onNext ? true : false}
