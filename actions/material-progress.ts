@@ -6,6 +6,7 @@ import { materialProgress, materials, userProgress } from "@/db/schema";
 import {auth} from "@clerk/nextjs/server";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const upsertMaterialProgress = async (materialId: number) => {
     const {userId} = await auth();

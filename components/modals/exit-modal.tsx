@@ -38,7 +38,7 @@ export const ExitModal = () => {
                     </div> */}
                     <DialogTitle className="text-center font-bold text-2xl">Are you sure you want to exit?</DialogTitle>
                     <DialogDescription className="text-center text-base">
-                        Your progress will not be saved.
+                        You can continue learning anytime.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

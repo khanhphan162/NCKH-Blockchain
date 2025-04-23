@@ -23,6 +23,7 @@ const LessonPage = async () => {
 
     return (
         <Material
+            title={lesson.title}
             initialLessonId={lesson.id}
             initialLessonMaterials={lesson.materials}
             initialHearts={userProgress.hearts}

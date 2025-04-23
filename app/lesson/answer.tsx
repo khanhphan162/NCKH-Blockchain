@@ -54,13 +54,11 @@ export const Answer = ({
                 <div 
                     className="relative aspect-square mb-4 max-h-[80px] lg:max-h-[150px] w-full"
                 >
-                    <Image src="/bc.svg" fill alt={imageSrc}/>
+                    <Image src={imageSrc} fill alt={imageSrc}/>
                 </div>
             )}
-            <div className={cn("flex items-center justify-between",
-                type === "ASSIGNMENT" && "flex-row-reverse",
-            )}>
-                {type === "ASSIGNMENT" && <div />}
+            <div className="flex items-center justify-between flex-row-reverse">
+                <div />
                 <p className={cn("text-neutral-600 text-sm lg:text-base",
                     selected && "text-sky-500",
                     selected && status === "correct" && "text-green-500",

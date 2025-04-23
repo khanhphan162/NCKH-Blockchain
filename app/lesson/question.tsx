@@ -1,6 +1,6 @@
 import { answers, materials, questions } from "@/db/schema"
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Answer } from "./answer";
 import { Footer } from "./footer";
 
@@ -17,7 +17,7 @@ export const Question = ({
     questions,
     disabled,
     type,
-    onNext
+    onNext,
 }: Props) => {
     const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
     const [status, setStatus] = useState<"correct" | "wrong" | "none" | "completed">("none");
@@ -61,6 +61,8 @@ export const Question = ({
 
             if (status === "correct") {
                 onNext && onNext();
+                setStatus("none");
+                setSelectedAnswers({});
                 return;
             }
         }
@@ -68,13 +70,9 @@ export const Question = ({
         const calculatedScore = calculateScore();
         setScore(calculatedScore);
 
-        if (calculatedScore >= passingScore) {
-            
-            setStatus("correct");
-        } else {
-            setStatus("wrong");
-        }
-    };
+        const newStatus = calculatedScore >= passingScore ? "correct" : "wrong";
+        setStatus(newStatus);
+    }
 
     const isAllQuestionsAnswered = Object.keys(selectedAnswers).length === totalQuestions;
 
@@ -85,10 +83,7 @@ export const Question = ({
                     <h1 className="text-lg lg:text-3xl text-center lg:text-start font-bold text-neutral-700 mb-4">
                         {question.content}
                     </h1>
-                    <div className={cn(
-                        "grid gap-2",
-                        type === "QUIZ" && "grid-cols-1",
-                        type === "ASSIGNMENT" && "grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(0,1fr))]"
+                    <div className={cn("grid gap-2"
                     )}>
                         {question.answers.map((answer, i) => (
                             <div key={answer.id}>
@@ -111,7 +106,7 @@ export const Question = ({
             ))}
 
             <Footer
-                disabled={!(isAllQuestionsAnswered || totalQuestions === 0)}
+                disabled={!isAllQuestionsAnswered}
                 status={status}
                 onCheck={onComplete}
                 lessonId={onNext ? true : false}

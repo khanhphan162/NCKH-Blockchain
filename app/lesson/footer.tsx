@@ -21,7 +21,7 @@ export const Footer = ({
     score = 0,
     passingScore = 80,
 }: Props) => {
-    useKey("Enter", onCheck, {}, [onCheck]);
+    // useKey("Enter", onCheck, {}, [onCheck]);
     const isMobile = useMedia("(max-width: 1024px)");
 
     return (

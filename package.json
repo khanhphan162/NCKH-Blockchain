@@ -10,7 +10,8 @@
     "db:studio": "npx drizzle-kit studio",
     "db:push": "npx drizzle-kit push",
     "db:seed": "tsx ./scripts/seed.ts",
-    "db:seed2": "tsx ./scripts/seed2.ts"
+    "db:seed2": "tsx ./scripts/seed2.ts",
+    "db:seed3": "tsx ./scripts/seed3.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.5.1",
