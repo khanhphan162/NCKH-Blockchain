@@ -1,8 +1,9 @@
 import { answers, materials, questions } from "@/db/schema"
 import { cn } from "@/lib/utils";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Answer } from "./answer";
 import { Footer } from "./footer";
+import { useAudio } from "react-use";
 
 type Props = {
     questions: (typeof questions.$inferSelect & {
@@ -11,6 +12,8 @@ type Props = {
     disabled?: boolean;
     type: typeof materials.$inferSelect["type"];
     onNext?: () => void;
+    onWrongAnswer?: () => void;
+    lessonId?: number;
 }
 
 export const Question = ({
@@ -18,7 +21,12 @@ export const Question = ({
     disabled,
     type,
     onNext,
+    onWrongAnswer,
+    lessonId,
 }: Props) => {
+    const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" });
+    const [incorrectAudio, _i, incorrectControls] = useAudio({ src: "/incorrect.wav" });
+
     const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
     const [status, setStatus] = useState<"correct" | "wrong" | "none" | "completed">("none");
     const [score, setScore] = useState(0);
@@ -71,6 +79,13 @@ export const Question = ({
         setScore(calculatedScore);
 
         const newStatus = calculatedScore >= passingScore ? "correct" : "wrong";
+        if (newStatus === "wrong") {
+            incorrectControls.play();
+            onWrongAnswer && onWrongAnswer();
+        }
+        else {
+            correctControls.play();
+        }
         setStatus(newStatus);
     }
 
@@ -78,6 +93,8 @@ export const Question = ({
 
     return (
         <div className="flex flex-col gap-8">
+            {incorrectAudio}
+            {correctAudio}
             {questions.map((question) => (
                 <div key={question.id} className="mb-6">
                     <h1 className="text-lg lg:text-3xl text-center lg:text-start font-bold text-neutral-700 mb-4">
@@ -109,7 +126,7 @@ export const Question = ({
                 disabled={!isAllQuestionsAnswered}
                 status={status}
                 onCheck={onComplete}
-                lessonId={onNext ? true : false}
+                lessonId={lessonId}
                 score={score}
                 passingScore={passingScore}
             />

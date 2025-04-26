@@ -1,13 +1,22 @@
 "use client";
 
-import { questions, answers, materials } from "@/db/schema";
-import { useState, useTransition } from "react";
 import { Header } from "./header";
-import { Question } from "./question";
-import Image from "next/image";
 import { Footer } from "./footer";
+import { Question } from "./question";
+import { ResultCard } from "./result-card";
+
+import { reduceHearts } from "@/actions/user-progress";
+import { questions, answers, materials } from "@/db/schema";
 import { upsertMaterialProgress } from "@/actions/material-progress";
+import { useHeartsModal } from "@/store/use-hearts-modal";
+import { usePracticeModal } from "@/store/use-practice-modal";
+
+import {useAudio, useWindowSize, useMount } from "react-use";
+import Confetti from "react-confetti";
+import Image from "next/image";
 import { toast } from "sonner";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 type Props = {
     title: string;
@@ -31,10 +40,28 @@ export const Material = ({
     initialLessonMaterials,
     userSubscription
 }: Props) => {
+    const {open : openHeartsModal } = useHeartsModal();
+    const {open : openPracticeModal } = usePracticeModal();
+
+    useMount(()=>{
+        if (initialPercentage === 100){
+            openPracticeModal();
+        }
+    })
+
+    const {width, height} = useWindowSize();
+
+    const router = useRouter();
+
+    const [finishAudio] = useAudio({src: "/finish.mp3", autoPlay: true });
+
     const [pending, startTransition] = useTransition();
 
+    const [lessonId] = useState(initialLessonId);
     const [hearts, setHearts] = useState(initialHearts);
-    const [percentage, setPercentage] = useState(initialPercentage);
+    const [percentage, setPercentage] = useState(() => {
+        return initialPercentage === 100 ? 0 : initialPercentage;
+    });
     const [materials] = useState(initialLessonMaterials);
     const [activeIndex, setActiveIndex] = useState(() => {
         const uncompletedIndex = materials.findIndex((material) => !material.completed);
@@ -52,34 +79,101 @@ export const Material = ({
             upsertMaterialProgress(material.id)
                 .then((response) => {
                     if (response?.error === "hearts") {
-                        console.error("Missing hearts");
+                        openHeartsModal();
                         return;
                     }
 
-                    setStatus("correct");
                     setPercentage((prev) => prev + 100 / materials.length);
-
+                    setActiveIndex((current) => current + 1);
                     if (initialPercentage === 100) {
                         setHearts((prev) => Math.min(prev + 1, 5));
-                    }
-
-
-                    if (activeIndex < materials.length - 1) {
-                        setActiveIndex((current) => current + 1);
-                    } else {
-                        window.location.href = "/learn";
                     }
                 })
                 .catch(() => toast.error("Something when wrong. Please try again"))
         })
-
     }
+
+    const onWrongAnswer = () => {
+        startTransition(() => {
+            reduceHearts(material.id)
+                .then((response) => {
+                    if (response?.error === "hearts") {
+                        openHeartsModal();
+                        return;
+                    }
+
+                    setStatus("wrong");
+
+                    if (hearts === 0){
+                        openHeartsModal();
+                        return;
+                    }
+
+                    if (!response?.error) {
+                        setHearts((prev) => Math.max(prev - 1, 0));
+                    }
+                })
+                .catch(() => toast.error("Something went wrong. Please try again."))
+        })
+    }
+    
     const onComplete = () => {
         if (!hasQuestions) {
             onNext();
             return;
         }
     }
+    
+    if (!material){
+        return(
+            <>
+                {finishAudio}
+                <Confetti
+                    width={width}
+                    height={height}
+                    recycle={false}
+                    numberOfPieces={500}
+                    tweenDuration={10000}
+                />
+                <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
+                    <Image
+                        src="/finish.svg"
+                        alt="Finish"
+                        className="hidden lg:block"
+                        height={100}
+                        width={100}
+                    />
+                    <Image
+                        src="/finish.svg"
+                        alt="Finish"
+                        className="block lg:hidden"
+                        height={50}
+                        width={50}
+                    />
+                    <h1 className="text-xl lg:text-3xl font-bold text-neutral-700">
+                        Congratulations!<br/>You&apos;ve completed the lesson.
+                    </h1>
+                    <div className="flex items-center gap-x-4 w-full">
+                        <ResultCard
+                            variant="points"
+                            value={materials.length * 10}
+                        />
+                        <ResultCard
+                            variant="hearts"
+                            value={hearts}
+                        />
+                    </div>
+                </div>
+                <Footer
+                    disabled={pending}
+                    status="completed"
+                    onCheck={() => router.push("/learn")}
+                    lessonId={lessonId}
+                />
+            </>
+        )
+    }
+
     const renderMaterialContent = () => {
         switch (material.type) {
             case "READING":
@@ -147,6 +241,8 @@ export const Material = ({
                                 disabled={pending}
                                 type={material.type}
                                 onNext={onNext}
+                                onWrongAnswer={onWrongAnswer}
+                                lessonId={lessonId}
                             />
                         )}
                         {!hasQuestions && (
@@ -154,7 +250,6 @@ export const Material = ({
                                 disabled={pending}
                                 status="none"
                                 onCheck={onComplete}
-                                lessonId={true}
                             />
                         )}
                     </div>
