@@ -14,8 +14,10 @@ export const GET = async(
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const {courseId} = await params
+
     const data = await db.query.courses.findFirst({
-        where: eq(courses.id, params.courseId),
+        where: eq(courses.id, courseId),
     });
 
     return NextResponse.json(data);
@@ -29,10 +31,11 @@ export const PUT = async(
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const {courseId} = await params
     const body = await req.json();
     const data = await db.update(courses).set({
         ...body,
-    }).where(eq(courses.id, params.courseId)).returning();
+    }).where(eq(courses.id, courseId)).returning();
 
     return NextResponse.json(data[0]);
 }
@@ -45,8 +48,9 @@ export const DELETE = async(
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const {courseId} = await params
     const data = await db.delete(courses)
-    .where(eq(courses.id, params.courseId)).returning();
+    .where(eq(courses.id, courseId)).returning();
 
     return NextResponse.json(data[0]);
 }

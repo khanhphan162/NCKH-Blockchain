@@ -2,22 +2,22 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 import db from "@/db/drizzle"
-import { modules } from "@/db/schema"
+import { lessons } from "@/db/schema"
 import { isAdmin } from "@/lib/admin";
 
 
 export const GET = async(
     req: Request,
-    {params} : {params: {moduleId: number} },
+    {params} : {params: {lessonId: number} },
 ) => {
     if (!isAdmin()){
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { moduleId } = await params
+    const { lessonId } = await params
 
-    const data = await db.query.modules.findFirst({
-        where: eq(modules.id, moduleId),
+    const data = await db.query.lessons.findFirst({
+        where: eq(lessons.id, lessonId),
     });
 
     return NextResponse.json(data);
@@ -25,33 +25,33 @@ export const GET = async(
 
 export const PUT = async(
     req: Request,
-    {params} : {params: {moduleId: number}},
+    {params} : {params: {lessonId: number}},
 ) => {
     if (!isAdmin()){
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { moduleId } = await params
+    const { lessonId } = await params
     const body = await req.json();
-    const data = await db.update(modules).set({
+    const data = await db.update(lessons).set({
         ...body,
-    }).where(eq(modules.id, moduleId)).returning();
+    }).where(eq(lessons.id, lessonId)).returning();
 
     return NextResponse.json(data[0]);
 }
 
 export const DELETE = async(
     req: Request,
-    {params} : {params: {moduleId: number}},
+    {params} : {params: {lessonId: number}},
 ) => {
     if (!isAdmin()){
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { moduleId } = await params
-    const data = await db.delete(modules)
+    const { lessonId } = await params
+    const data = await db.delete(lessons)
 
-    .where(eq(modules.id, moduleId)).returning();
+    .where(eq(lessons.id, lessonId)).returning();
 
     return NextResponse.json(data[0]);
 }

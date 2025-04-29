@@ -1,0 +1,29 @@
+import { Edit, NumberInput, ReferenceInput, required, SimpleForm, TextInput } from "react-admin";
+
+export const LessonEdit = () => {
+    return (
+        <Edit>
+            <SimpleForm>
+                <TextInput
+                    source="id"
+                    validate={[required()]}
+                    label="Id"
+                />
+                <TextInput
+                    source="title"
+                    validate={[required()]}
+                    label="Title"
+                />
+                <ReferenceInput
+                    source="moduleId"
+                    reference="modules"
+                />
+                <NumberInput
+                    source="order"
+                    validate={[required()]}
+                    label="Order"
+                />
+            </SimpleForm>
+        </Edit>
+    );
+};
