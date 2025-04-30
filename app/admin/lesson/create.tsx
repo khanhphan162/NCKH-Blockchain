@@ -5,18 +5,13 @@ export const LessonCreate = () => {
         <Create>
             <SimpleForm>
                 <TextInput
-                    source="id"
-                    validate={[required()]}
-                    label="Id"
-                />
-                <TextInput
                     source="title"
                     validate={[required()]}
                     label="Title"
                 />
                 <ReferenceInput
-                    source="courseId"
-                    reference="courses"
+                    source="moduleId"
+                    reference="modules"
                 />
                 <NumberInput
                     source="order"
