@@ -61,7 +61,7 @@ export const getModules = cache(async () => {
     const normalizedData = data.map((module) => {
         const lessonsWithCompletedStatus = module.lessons.map((lesson) => {
             if (lesson.materials.length === 0) {
-                return{ ...lesson, completed: false};
+                return { ...lesson, completed: false };
             }
             const allCompletedMaterials = lesson.materials.every((material) => {
                 return material.materialProgress
@@ -73,7 +73,7 @@ export const getModules = cache(async () => {
                 completed: allCompletedMaterials,
             }
         });
-        return{
+        return {
             ...module,
             lessons: lessonsWithCompletedStatus,
         }
@@ -91,27 +91,43 @@ export const getCourses = cache(async () => {
 export const getCourseById = cache(async (courseId: number) => {
     const data = await db.query.courses.findFirst({
         where: eq(courses.id, courseId),
-        // TODO: Populate modules and lessons
+        with: {
+            modules: {
+                orderBy: (modules, { asc }) => [asc(modules.order)],
+                with: {
+                    lessons: {
+                        orderBy: (lessons, { asc }) => [asc(lessons.order)],
+                        with: {
+                            materials: {
+                                with: {
+                                    questions: true,
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     });
 
     return data;
 });
 
-export const getCourseProgress = cache(async () =>{
-    const {userId} = await auth();
+export const getCourseProgress = cache(async () => {
+    const { userId } = await auth();
     const userProgress = await getUserProgress();
 
-    if (!userId || !userProgress?.activeCourseId){
+    if (!userId || !userProgress?.activeCourseId) {
         return null;
     }
 
     const modulesInActiveCourse = await db.query.modules.findMany({
-        orderBy: (modules, {asc}) => [asc(modules.order)],
+        orderBy: (modules, { asc }) => [asc(modules.order)],
         where: eq(modules.courseId, userProgress.activeCourseId),
         with: {
             lessons: {
-                orderBy: (lessons, {asc}) => [asc(lessons.order)],
-                with:{
+                orderBy: (lessons, { asc }) => [asc(lessons.order)],
+                with: {
                     materials: {
                         with: {
                             materialProgress: {
@@ -123,24 +139,33 @@ export const getCourseProgress = cache(async () =>{
             }
         }
     })
-    const firstUncompletedLesson = modulesInActiveCourse.flatMap((module) => module.lessons)
-    .find((lesson) =>{
-        return lesson.materials.some((material) =>{
-            // TODO: If something does not work, check the last if clause
-            return !material.materialProgress || material.materialProgress.length === 0 || material.materialProgress.some((progress) => progress.completed === false);
-        })
-    })
+    const allLessons = modulesInActiveCourse.flatMap((module) => module.lessons);
+
+    const isCourseCompleted = allLessons.every((lesson) =>
+        lesson.materials.every((material) =>
+            material.materialProgress &&
+            material.materialProgress.length > 0 &&
+            material.materialProgress.every((progress) => progress.completed)
+        )
+    );
+
+    const firstUncompletedLesson = allLessons.find((lesson) => 
+        lesson.materials.some((material) => 
+            !material.materialProgress || material.materialProgress.length === 0 || material.materialProgress.some((progress) => progress.completed === false)
+        )
+    );
 
     return {
         activeLesson: firstUncompletedLesson,
         activeLessonId: firstUncompletedLesson?.id,
+        isCourseCompleted,
     }
 })
 
-export const getLesson = cache(async (id?: number) =>{
-    const {userId} = await auth();
+export const getLesson = cache(async (id?: number) => {
+    const { userId } = await auth();
 
-    if (!userId){
+    if (!userId) {
         return null;
     }
 
@@ -156,12 +181,13 @@ export const getLesson = cache(async (id?: number) =>{
         where: eq(lessons.id, lessonId),
         with: {
             materials: {
-                orderBy: (materials, {asc}) => [asc(materials.order)],
-                with:{
+                orderBy: (materials, { asc }) => [asc(materials.order)],
+                with: {
                     questions: {
-                    with: {
-                        answers: true,
-                    }},
+                        with: {
+                            answers: true,
+                        }
+                    },
                     materialProgress: {
                         where: eq(materialProgress.userId, userId)
                     }
@@ -170,38 +196,37 @@ export const getLesson = cache(async (id?: number) =>{
         }
     })
 
-    if (!data || !data.materials){
+    if (!data || !data.materials) {
         return null;
     }
 
-    const normalizedMaterials = data.materials.map((material) =>{
-            // TODO: If something does not work, check the last if clause
-        const completed = material.materialProgress 
-        && material.materialProgress.length > 0
-        && material.materialProgress.every((progress) => progress.completed);
+    const normalizedMaterials = data.materials.map((material) => {
+        const completed = material.materialProgress
+            && material.materialProgress.length > 0
+            && material.materialProgress.every((progress) => progress.completed);
 
-        return {...material, completed};
+        return { ...material, completed };
     })
 
-    return {...data, materials: normalizedMaterials}
+    return { ...data, materials: normalizedMaterials }
 })
 
-export const getLessonPercentage = cache(async () =>{
+export const getLessonPercentage = cache(async () => {
     const courseProgress = await getCourseProgress();
 
-    if (!courseProgress?.activeLessonId){
+    if (!courseProgress?.activeLessonId) {
         return 0;
     }
 
     const lesson = await getLesson(courseProgress.activeLessonId);
-    
-    if (!lesson){
+
+    if (!lesson) {
         return 0;
     }
 
     const completedMaterials = lesson.materials.filter((material) => material.completed);
     const percentage = Math.round(
-        (completedMaterials.length / lesson.materials.length) *100,
+        (completedMaterials.length / lesson.materials.length) * 100,
     );
 
     return percentage;

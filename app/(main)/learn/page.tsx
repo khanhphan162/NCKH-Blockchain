@@ -11,6 +11,7 @@ import {
 import { redirect } from "next/navigation"
 import { Module } from "./module"
 import { lessons, modules as modulesSchema} from "@/db/schema"
+import { markCourseAsCompleted } from "@/actions/user-progress"
 
 const LearnPage = async () => {
     const userProgressData = getUserProgress();
@@ -37,6 +38,11 @@ const LearnPage = async () => {
     if (!courseProgress){
         redirect("/courses");
     }
+
+    if (courseProgress.isCourseCompleted){
+        markCourseAsCompleted();
+    }
+
     return (
         <div className="flex flex-row-reverse gap-[48px] px-6">
             <StickyWrapper>
@@ -64,6 +70,11 @@ const LearnPage = async () => {
                         />
                     </div>
                 ))}
+                {courseProgress.isCourseCompleted && (
+                    <div className="text-center text-green-500 font-bold text-xl">
+                        Congratulations! You have completed the course.
+                    </div>
+                )}
             </FeedWrapper>
         </div>
     )

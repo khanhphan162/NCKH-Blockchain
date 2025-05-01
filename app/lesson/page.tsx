@@ -15,18 +15,18 @@ const LessonPage = async () => {
         UserProgressData,
     ])
 
-    if (!lesson || !userProgress) {
+    if (!userProgress){
         redirect("/learn");
     }
 
-    const initialPercentage = lesson.materials.filter((material) => material.completed).length / lesson.materials.length * 100;
+    const initialPercentage = lesson ? lesson.materials.filter((material) => material.completed).length / lesson.materials.length * 100 : 0;
 
     return (
         <Material
-            title={lesson.title}
-            initialLessonId={lesson.id}
-            initialLessonMaterials={lesson.materials}
-            initialHearts={userProgress.hearts}
+            title={lesson ? lesson.title : ""}
+            initialLessonId={lesson ? lesson.id : -1}
+            initialLessonMaterials={lesson ? lesson.materials : []}
+            initialHearts={userProgress?.hearts}
             initialPercentage={initialPercentage}
             userSubscription={null}
         />

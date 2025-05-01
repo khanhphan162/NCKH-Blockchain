@@ -23,10 +23,9 @@ export const upsertUserProgress = async (courseId: number) =>{
         throw new Error("Course not found");
     }
 
-    // TODO: Enable once units and lessons are added
-    // if(!course.units.length || !course.units[0].lessons.length){
-    //     throw new Error("Course is empty");
-    // }
+    if(!course.modules.length || !course.modules[0].lessons.length){
+        throw new Error("Course is empty");
+    }
 
     const existingUserProgress = await getUserProgress();    
 
@@ -103,4 +102,19 @@ export const reduceHearts = async (materialId: number) => {
     revalidatePath("/certificates");
     revalidatePath("/shop");
     revalidatePath(`/lesson/${lessonId}`);
+};
+
+export const markCourseAsCompleted = async () => {
+    const { userId } = await auth();
+    const currentUserProgress = await getUserProgress();
+
+    if (!userId || !currentUserProgress?.activeCourseId) {
+        throw new Error("Unauthorized or no active course");
+    }
+
+    await db.update(userProgress).set({
+        completed: true,
+    }).where(eq(userProgress.userId, userId));
+
+    revalidatePath("/learn");
 };
