@@ -1,9 +1,12 @@
+"use client";
 import { answers, materials, questions } from "@/db/schema"
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Answer } from "./answer";
 import { Footer } from "./footer";
 import { useAudio } from "react-use";
+import { useSession } from "@clerk/nextjs";
+import { toast } from "sonner";
 
 type Props = {
     questions: (typeof questions.$inferSelect & {
@@ -33,6 +36,19 @@ export const Question = ({
     const totalQuestions = questions.length;
     const passingScore = 80;
 
+    const { isSignedIn, session } = useSession();
+    const userId = session?.user.id;
+    const [walletAddress, setWalletAddress] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!isSignedIn || !userId) return;
+        console.log('userId>>>>>>>',userId)
+        fetch(`/api/user/${userId}`)
+            .then(res => res.json())
+            .then(data => setWalletAddress(data.walletAddress))
+            .catch(() => toast.error("Không thể lấy địa chỉ ví người dùng"));
+    }, [isSignedIn, userId]);
+
     const onSelect = (questionId: number, answerId: number) => {
         if (status !== "none") return;
 
@@ -59,7 +75,7 @@ export const Question = ({
         return Math.round(percentage);
     }
 
-    const onComplete = () => {
+    const onComplete = async () => {
         if (status !== "none") {
             if (status === "wrong") {
                 setStatus("none");
@@ -85,6 +101,19 @@ export const Question = ({
         }
         else {
             correctControls.play();
+
+            console.log('wallet>>>>>>>>>', walletAddress);
+            if (walletAddress && walletAddress !== "0x") {
+                try {
+                    await fetch("/api/reward/lesson", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ userAddress: walletAddress }),
+                    });
+                } catch (err) {
+                    toast.error("Không thể gửi phần thưởng ERC20.");
+                }
+            }
         }
         setStatus(newStatus);
     }

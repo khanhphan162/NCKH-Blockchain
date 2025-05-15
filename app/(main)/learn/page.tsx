@@ -12,6 +12,7 @@ import { redirect } from "next/navigation"
 import { Module } from "./module"
 import { lessons, modules as modulesSchema} from "@/db/schema"
 import { markCourseAsCompleted } from "@/actions/user-progress"
+import { ApproveSection } from "@/components/ApproveSection";
 
 const LearnPage = async () => {
     const userProgressData = getUserProgress();
@@ -70,11 +71,7 @@ const LearnPage = async () => {
                         />
                     </div>
                 ))}
-                {courseProgress.isCourseCompleted && (
-                    <div className="text-center text-green-500 font-bold text-xl">
-                        Congratulations! You have completed the course.
-                    </div>
-                )}
+                {courseProgress.isCourseCompleted && <ApproveSection/>}
             </FeedWrapper>
         </div>
     )

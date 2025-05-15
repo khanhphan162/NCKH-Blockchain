@@ -6,6 +6,7 @@ import "./globals.css";
 import { ExitModal } from "@/components/modals/exit-modal";
 import { HeartsModal } from "@/components/modals/hearts-modal";
 import { PracticeModal } from "@/components/modals/practice-modal";
+import { UserWalletProgress } from "@/components/userwallet-progress";
 
 const font = Nunito({subsets: ["latin"]});
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           <ExitModal/>
           <HeartsModal />
           <PracticeModal />
+          <UserWalletProgress/>
           {children}
           </body>
       </html>
