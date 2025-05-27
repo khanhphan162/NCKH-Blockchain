@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut, SignInButton, UserButton, } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
 import Image from "next/image";
+import { ConnectWalletButton } from "@/components/wallet/connect-wallet-modal";
+
 export const Header = () => {
     return (
         <header className="h-20 w-full border-b-2 border-slate-200 px-4">
@@ -13,7 +15,7 @@ export const Header = () => {
                 <ClerkLoading>
                     <Loader className="h-5 w-5 text-muted-foreground animate-spin"/>
                 </ClerkLoading>
-                <ClerkLoaded>
+                {/* <ClerkLoaded>
                     <SignedIn>
                         <UserButton/>
                     </SignedIn>
@@ -22,6 +24,20 @@ export const Header = () => {
                             <Button size="lg" variant="ghost">Login</Button>
                         </SignInButton>
                     </SignedOut>
+                </ClerkLoaded> */}
+
+                <ClerkLoaded>
+                    <div className="flex items-center gap-x-4">
+                        <ConnectWalletButton />
+                        <SignedIn>
+                            <UserButton />
+                        </SignedIn>
+                        <SignedOut>
+                            <SignInButton mode="modal">
+                                <Button size="lg" variant="ghost">Login</Button>
+                            </SignInButton>
+                        </SignedOut>
+                    </div>
                 </ClerkLoaded>
             </div>
         </header>

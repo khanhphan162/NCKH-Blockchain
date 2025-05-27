@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import {ERC20_ABI} from '../erc20abi'
 import { z } from "zod";
 
-const CONTRACT_ADDRESS = "0xE593c6aD174F2bE65dF1B314444c35b414e53421";
+const CONTRACT_ADDRESS = "0xbbfb2aa40ee6c2a1fdfdb9dd528f78f607d8effe";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -23,12 +23,13 @@ export async function POST(req: Request) {
 
   const admin = privateKeyToAccount(process.env.ADMIN_PRIVATE_KEY as `0x${string}`);
 
+
   const client = createWalletClient({
     account: admin,
     chain: sepolia,
     transport: http('https://ethereum-sepolia.rpc.subquery.network/public'),
   });
-
+  console.log("erc20addres>>>>>>>", CONTRACT_ADDRESS);
   try {
     const txHash = await client.writeContract({
       address: CONTRACT_ADDRESS,

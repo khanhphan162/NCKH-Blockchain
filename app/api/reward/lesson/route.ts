@@ -4,7 +4,7 @@ import { sepolia } from "viem/chains";
 import {ERC20_ABI} from '../erc20abi'
 import { NextResponse } from "next/server";
 
-const ERC20_ADDRESS = "0xE593c6aD174F2bE65dF1B314444c35b414e53421";
+const ERC20_ADDRESS = "0xbbfb2aa40ee6c2a1fdfdb9dd528f78f607d8effe";
 
 export async function POST(req: Request) {
   const { userAddress } = await req.json();
@@ -22,7 +22,6 @@ export async function POST(req: Request) {
     transport: http('https://ethereum-sepolia.rpc.subquery.network/public'),
   });
 
-  const amount = BigInt(20 * 1e18);
   console.log("Transferring to:", userAddress)
   try {
     const txHash = await walletClient.writeContract({

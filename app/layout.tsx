@@ -28,7 +28,6 @@ export default function RootLayout({
           <ExitModal/>
           <HeartsModal />
           <PracticeModal />
-          <UserWalletProgress/>
           {children}
           </body>
       </html>

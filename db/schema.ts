@@ -135,3 +135,13 @@ export const userProgressRelations = relations(userProgress, ({ one}) => ({
         references: [courses.id],
     }),
 }));
+
+export const transactions = pgTable("transactions", {
+    id: serial("id").primaryKey(),
+    userWallet: text("user_wallet").notNull(),
+    type: text("type").notNull(),                  // "REWARD" | "NFT"
+    txHash: text("tx_hash").notNull(),
+    blockNumber: integer("block_number").notNull(),
+    amount: text("amount").notNull(),              // lưu số token hoặc tokenId
+    timestamp: text("timestamp").notNull(),
+});

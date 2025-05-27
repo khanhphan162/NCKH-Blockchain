@@ -51,7 +51,7 @@ export const upsertMaterialProgress = async (materialId: number) => {
 
         await db.update(userProgress).set({
             hearts: Math.min(currentUserProgress.hearts + 1, 5),
-            points: currentUserProgress.points + 10,
+            points: currentUserProgress.points + 0,
         }).where(eq(userProgress.userId, userId));
 
         revalidatePath("/learn");
@@ -68,7 +68,7 @@ export const upsertMaterialProgress = async (materialId: number) => {
     });
 
     await db.update(userProgress).set({
-        points: currentUserProgress.points + 10,
+        points: currentUserProgress.points + 0,
     }).where(eq(userProgress.userId, userId));
     
     revalidatePath("/learn");
