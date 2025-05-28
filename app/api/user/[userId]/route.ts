@@ -7,7 +7,7 @@ export async function GET(
   req: Request,
   { params }: { params: { userId: string } }
 ) {
-  const { userId } = params;
+  const { userId } = await params;
 
   const [user] = await db
     .select()
