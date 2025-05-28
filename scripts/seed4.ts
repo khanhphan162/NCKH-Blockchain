@@ -378,7 +378,6 @@ const main = async () => {
                 order: 2,
             },
             
-            // Continue with more lessons...
             // Lesson 12: Proof of Work (PoW)
             {
                 id: 20,
@@ -394,6 +393,86 @@ const main = async () => {
                 content: "<h3>PoW Example:</h3><pre><code>Block Data: 'Alice sends 5 BTC to Bob'\nPrevious Hash: 000abc123...\nNonce: 0\nHash: 7a8b9c... (doesn't start with enough zeros)\n\nNonce: 1\nHash: 3f4e5d... (still not valid)\n\n... (millions of attempts) ...\n\nNonce: 2,847,392\nHash: 0000001a2b3c... (valid! starts with required zeros)</code></pre><h3>Pros and Cons:</h3><table border='1' style='width:100%; border-collapse: collapse;'><tr><th>Pros</th><th>Cons</th></tr><tr><td>Highly secure</td><td>Energy intensive</td></tr><tr><td>Proven track record</td><td>Slow transaction speed</td></tr><tr><td>True decentralization</td><td>Mining centralization risk</td></tr></table>",
                 order: 2,
             },
+            // Lesson 13: Proof of Stake (PoS)
+            {
+                id: 22,
+                lessonId: 13,
+                type: "READING",
+                content: "<h2>Proof of Stake: Energy-Efficient Consensus</h2><p>Proof of Stake (PoS) is an alternative consensus mechanism that selects validators based on the amount of cryptocurrency they hold and are willing to 'stake' as collateral.</p><h3>How PoS Works:</h3><ol><li><strong>Validator Selection:</strong> Validators are chosen based on their stake amount</li><li><strong>Block Proposal:</strong> Selected validator proposes a new block</li><li><strong>Attestation:</strong> Other validators verify and attest to the block</li><li><strong>Finalization:</strong> Block is added to the chain when sufficient attestations received</li></ol><h3>Key Advantages:</h3><ul><li><strong>Energy Efficiency:</strong> No computational puzzles to solve</li><li><strong>Reduced Hardware Requirements:</strong> No specialized mining equipment needed</li><li><strong>Economic Security:</strong> Validators risk losing their stake if they act maliciously</li></ul>",
+                order: 1,
+            },
+            {
+                id: 23,
+                lessonId: 13,
+                type: "READING",
+                content: "<h3>Variations of Proof of Stake</h3><ul><li><strong>Delegated Proof of Stake (DPoS):</strong> Token holders vote for delegates who validate blocks</li><li><strong>Leased Proof of Stake (LPoS):</strong> Users can lease their tokens to validators</li><li><strong>Bonded Proof of Stake:</strong> Validators lock up tokens for a fixed period</li></ul><h3>Ethereum's Transition to PoS</h3><p>Ethereum completed its transition from PoW to PoS in September 2022 with 'The Merge'. This reduced Ethereum's energy consumption by approximately 99.95%.</p><div style='background-color: #f0f8ff; padding: 15px; border-left: 4px solid #0066cc; margin: 10px 0;'><strong>Security Consideration:</strong> PoS systems must carefully address the 'nothing at stake' problem, where validators might be incentivized to validate multiple competing chains simultaneously.</div>",
+                order: 2,
+            },
+            {
+                id: 24,
+                lessonId: 13,
+                type: "VIDEO",
+                content: "Proof of Stake Explained: How Validators Secure the Network",
+                order: 3,
+                videoSrc: "https://www.youtube.com/embed/x83EVUZ_EWo",
+            },
+            
+            // Lesson 14: Other Consensus Algorithms
+            {
+                id: 25,
+                lessonId: 14,
+                type: "READING",
+                content: "<h2>Beyond PoW and PoS: Alternative Consensus Mechanisms</h2><h3>1. Delegated Proof of Stake (DPoS)</h3><p>DPoS allows token holders to vote for a small number of delegates (witnesses) who validate transactions and create blocks.</p><ul><li><strong>Examples:</strong> EOS, Tron, BitShares</li><li><strong>Advantages:</strong> High throughput, energy efficient</li><li><strong>Disadvantages:</strong> More centralized than pure PoS</li></ul><h3>2. Practical Byzantine Fault Tolerance (pBFT)</h3><p>pBFT achieves consensus through a voting process among known validators, providing immediate finality.</p><ul><li><strong>Examples:</strong> Hyperledger Fabric, Zilliqa</li><li><strong>Advantages:</strong> Immediate finality, no forks</li><li><strong>Disadvantages:</strong> Limited scalability with large validator sets</li></ul>",
+                order: 1,
+            },
+            {
+                id: 26,
+                lessonId: 14,
+                type: "READING",
+                content: "<h3>3. Proof of Authority (PoA)</h3><p>PoA relies on a set of approved validators who take turns producing blocks.</p><ul><li><strong>Examples:</strong> POA Network, Ethereum testnets (Rinkeby, Goerli)</li><li><strong>Advantages:</strong> High performance, no mining required</li><li><strong>Disadvantages:</strong> Centralized, requires trusted validators</li></ul><h3>4. Proof of Space/Capacity</h3><p>Validators allocate disk space to solve cryptographic puzzles.</p><ul><li><strong>Examples:</strong> Chia, Spacemesh</li><li><strong>Advantages:</strong> Energy efficient, uses existing hardware</li><li><strong>Disadvantages:</strong> Potential electronic waste from storage devices</li></ul><h3>5. Proof of Elapsed Time (PoET)</h3><p>Validators wait for a randomly chosen time period, with the first to complete the wait creating the next block.</p><ul><li><strong>Examples:</strong> Hyperledger Sawtooth</li><li><strong>Advantages:</strong> Energy efficient, fair leader election</li><li><strong>Disadvantages:</strong> Requires trusted execution environments</li></ul>",
+                order: 2,
+            },
+            // Lesson 16: Public Blockchains
+            {
+                id: 27,
+                lessonId: 16,
+                type: "READING",
+                content: "<h2>Public Blockchains: Open Networks for All</h2><p>Public blockchains are permissionless networks where anyone can participate as a node, validator, or user without requiring approval.</p><h3>Key Characteristics:</h3><ul><li><strong>Open Participation:</strong> Anyone can join the network</li><li><strong>Transparency:</strong> All transactions are publicly visible</li><li><strong>Censorship Resistance:</strong> No central authority can block transactions</li><li><strong>Decentralization:</strong> Distributed control across many participants</li></ul><h3>Notable Examples:</h3><ul><li><strong>Bitcoin:</strong> The first and largest cryptocurrency network</li><li><strong>Ethereum:</strong> Smart contract platform enabling decentralized applications</li><li><strong>Solana:</strong> High-throughput blockchain for fast transactions</li><li><strong>Cardano:</strong> Research-driven proof-of-stake blockchain</li></ul>",
+                order: 1,
+            },
+            {
+                id: 28,
+                lessonId: 16,
+                type: "READING",
+                content: "<h3>Use Cases for Public Blockchains</h3><ul><li><strong>Cryptocurrencies:</strong> Digital money and store of value</li><li><strong>DeFi:</strong> Decentralized financial services</li><li><strong>NFTs:</strong> Digital ownership and collectibles</li><li><strong>DAOs:</strong> Decentralized governance organizations</li><li><strong>Supply Chain Tracking:</strong> Public verification of product origins</li></ul><h3>Challenges:</h3><ul><li><strong>Scalability:</strong> Limited transaction throughput</li><li><strong>Energy Consumption:</strong> Especially for PoW networks</li><li><strong>Privacy:</strong> All transactions are publicly visible</li><li><strong>Governance:</strong> Difficulty in making protocol changes</li></ul><div style='background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 10px 0;'><strong>Trade-off:</strong> Public blockchains prioritize security and decentralization at the expense of efficiency and throughput.</div>",
+                order: 2,
+            },
+            {
+                id: 29,
+                lessonId: 16,
+                type: "VIDEO",
+                content: "Public Blockchains: Architecture and Real-World Applications",
+                order: 3,
+                videoSrc: "https://www.youtube.com/embed/XuH4OU0UoJo",
+            },
+            
+            // Lesson 17: Private Blockchains
+            {
+                id: 30,
+                lessonId: 17,
+                type: "READING",
+                content: "<h2>Private Blockchains: Controlled Access Networks</h2><p>Private blockchains are permissioned networks where participation is restricted to approved entities, typically managed by a single organization.</p><h3>Key Characteristics:</h3><ul><li><strong>Restricted Access:</strong> Only authorized participants can join</li><li><strong>Controlled Visibility:</strong> Transaction data visible only to participants</li><li><strong>Higher Performance:</strong> Faster transaction processing</li><li><strong>Lower Costs:</strong> No mining or staking required</li></ul><h3>Notable Examples:</h3><ul><li><strong>Hyperledger Fabric:</strong> Modular enterprise blockchain platform</li><li><strong>Quorum:</strong> Enterprise-focused version of Ethereum</li><li><strong>Corda:</strong> Designed for financial institutions</li></ul>",
+                order: 1,
+            },
+            {
+                id: 31,
+                lessonId: 17,
+                type: "READING",
+                content: "<h3>Use Cases for Private Blockchains</h3><ul><li><strong>Financial Services:</strong> Inter-bank settlements, trade finance</li><li><strong>Healthcare:</strong> Secure patient data sharing</li><li><strong>Supply Chain:</strong> Internal tracking and verification</li><li><strong>Identity Management:</strong> Controlled access to sensitive information</li><li><strong>Asset Tracking:</strong> Internal record-keeping</li></ul><h3>Advantages Over Traditional Databases:</h3><ul><li><strong>Immutability:</strong> Tamper-evident record keeping</li><li><strong>Shared State:</strong> Single source of truth among participants</li><li><strong>Smart Contracts:</strong> Automated business logic execution</li><li><strong>Auditability:</strong> Complete transaction history</li></ul><div style='background-color: #e8f5e8; padding: 15px; border-left: 4px solid #28a745; margin: 10px 0;'><strong>Key Insight:</strong> Private blockchains sacrifice some decentralization for performance and privacy, making them suitable for enterprise use cases where participants are known and trusted.</div>",
+                order: 2,
+            },
+
+
             
             // Add materials for remaining lessons following the same pattern...
             // For brevity, I'll add a few more key examples
@@ -423,6 +502,46 @@ const main = async () => {
                 content: "<h2>Ethereum Accounts: EOAs vs Contract Accounts</h2><p>Ethereum has two types of accounts:</p><h3>1. Externally Owned Accounts (EOAs)</h3><ul><li>Controlled by private keys</li><li>Can initiate transactions</li><li>No associated code</li><li>Example: 0x742d35Cc6634C0532925a3b8D4C9db96590e4b80</li></ul><h3>2. Contract Accounts</h3><ul><li>Controlled by smart contract code</li><li>Cannot initiate transactions independently</li><li>Have associated bytecode</li><li>Created when contracts are deployed</li></ul><h3>Account Properties:</h3><ul><li><strong>Nonce:</strong> Transaction counter</li><li><strong>Balance:</strong> ETH amount in wei</li><li><strong>Storage Hash:</strong> Root of account's storage</li><li><strong>Code Hash:</strong> Hash of account's code</li></ul>",
                 order: 1,
             },
+            // Lesson 23: Transactions and Gas
+            {
+                id: 32,
+                lessonId: 23,
+                type: "READING",
+                content: "<h2>Ethereum Transactions and Gas System</h2><p>Transactions are signed messages originating from externally owned accounts (EOAs) that trigger state changes on the Ethereum blockchain.</p><h3>Transaction Components:</h3><ul><li><strong>From:</strong> Sender's address (derived from signature)</li><li><strong>To:</strong> Recipient address (EOA or contract)</li><li><strong>Value:</strong> Amount of ETH to transfer</li><li><strong>Data:</strong> Input data for contract interactions</li><li><strong>Gas Limit:</strong> Maximum gas units allowed</li><li><strong>Max Fee Per Gas:</strong> Maximum price willing to pay per gas unit</li><li><strong>Max Priority Fee:</strong> Tip to validators</li><li><strong>Nonce:</strong> Transaction counter for the account</li><li><strong>Signature:</strong> Cryptographic proof of sender</li></ul>",
+                order: 1,
+            },
+            {
+                id: 33,
+                lessonId: 23,
+                type: "READING",
+                content: "<h3>Understanding Gas</h3><p>Gas is the unit that measures computational effort required to execute operations on Ethereum.</p><h3>Gas Concepts:</h3><ul><li><strong>Gas Units:</strong> Each operation costs a fixed amount of gas units</li><li><strong>Gas Price:</strong> The price per gas unit in ETH (gwei)</li><li><strong>Gas Limit:</strong> Maximum gas units a transaction can consume</li><li><strong>Gas Fee:</strong> Total cost (Gas Units × Gas Price)</li></ul><h3>EIP-1559 Fee Market:</h3><p>Introduced in August 2021, EIP-1559 changed Ethereum's fee mechanism:</p><ul><li><strong>Base Fee:</strong> Algorithmically determined, burned when paid</li><li><strong>Priority Fee:</strong> Optional tip to validators</li><li><strong>Max Fee:</strong> Maximum total fee willing to pay</li></ul><div style='background-color: #f0f8ff; padding: 15px; border-left: 4px solid #0066cc; margin: 10px 0;'><strong>Important:</strong> If a transaction runs out of gas during execution, all state changes are reverted, but the gas fee is still paid to the validator.</div>",
+                order: 2,
+            },
+            {
+                id: 34,
+                lessonId: 23,
+                type: "VIDEO",
+                content: "Ethereum Gas Explained: How Transaction Fees Work",
+                order: 3,
+                videoSrc: "https://www.youtube.com/embed/Yh8cHUB-KoU",
+            },
+            
+            // Lesson 24: Ethereum Virtual Machine (EVM)
+            {
+                id: 35,
+                lessonId: 24,
+                type: "READING",
+                content: "<h2>The Ethereum Virtual Machine (EVM)</h2><p>The EVM is a Turing-complete virtual machine that executes smart contract bytecode on the Ethereum network.</p><h3>Key Characteristics:</h3><ul><li><strong>Sandboxed:</strong> Isolated execution environment</li><li><strong>Deterministic:</strong> Same input always produces same output</li><li><strong>Stack-based:</strong> Uses a stack for operation execution</li><li><strong>Gas-metered:</strong> Every operation has a gas cost</li></ul><h3>EVM Architecture:</h3><ul><li><strong>Stack:</strong> Temporary data storage (1024 elements max)</li><li><strong>Memory:</strong> Volatile byte array for temporary storage</li><li><strong>Storage:</strong> Persistent key-value store for contract state</li><li><strong>Calldata:</strong> Read-only input data area</li><li><strong>Program Counter:</strong> Tracks execution position</li><li><strong>Gas Counter:</strong> Tracks remaining gas</li></ul>",
+                order: 1,
+            },
+            {
+                id: 36,
+                lessonId: 24,
+                type: "READING",
+                content: "<h3>EVM Execution Cycle</h3><ol><li>Transaction is submitted to the network</li><li>Validator includes transaction in a block</li><li>EVM loads contract code and current state</li><li>EVM executes bytecode operation by operation</li><li>Gas is consumed for each operation</li><li>Execution continues until completion or out-of-gas</li><li>State changes are committed or reverted</li></ol><h3>EVM Opcodes Examples:</h3><ul><li><strong>PUSH1, PUSH2, etc.:</strong> Push values onto stack</li><li><strong>ADD, SUB, MUL:</strong> Arithmetic operations</li><li><strong>SLOAD, SSTORE:</strong> Storage operations</li><li><strong>CALL, DELEGATECALL:</strong> Contract interaction</li><li><strong>CREATE, CREATE2:</strong> Contract creation</li></ul><div style='background-color: #e8f5e8; padding: 15px; border-left: 4px solid #28a745; margin: 10px 0;'><strong>EVM Compatibility:</strong> Many blockchains (Binance Smart Chain, Avalanche C-Chain, Polygon) implement EVM compatibility to leverage Ethereum's developer ecosystem and tools.</div>",
+                order: 2,
+            },
+            
             // Lesson 26: Introduction to Smart Contracts
             {
                 id: 75,
@@ -445,6 +564,14 @@ const main = async () => {
                 lessonId: 27,
                 type: "READING",
                 content: "<h2>Solidity Programming Language</h2><p>Solidity is a statically-typed programming language designed for developing smart contracts on Ethereum.</p><h3>Basic Syntax:</h3><pre><code>pragma solidity ^0.8.0;\n\ncontract MyContract {\n    // State variables\n    uint256 public myNumber;\n    string public myString;\n    \n    // Constructor\n    constructor(uint256 _initialNumber) {\n        myNumber = _initialNumber;\n    }\n    \n    // Function\n    function setNumber(uint256 _newNumber) public {\n        myNumber = _newNumber;\n    }\n}</code></pre><h3>Data Types:</h3><ul><li><strong>uint:</strong> Unsigned integers (uint8, uint256, etc.)</li><li><strong>int:</strong> Signed integers</li><li><strong>bool:</strong> Boolean values</li><li><strong>address:</strong> Ethereum addresses</li><li><strong>string:</strong> Text data</li><li><strong>bytes:</strong> Binary data</li></ul>",
+                order: 1,
+            },
+            // Lesson 28: Contract Deployment
+            {
+                id: 37,
+                lessonId: 28,
+                type: "READING",
+                content: "<h2>Deploying Smart Contracts on Ethereum</h2><p>Deploying a smart contract means submitting its compiled bytecode to the Ethereum network, where it receives a unique address.</p><h3>Deployment Process:</h3><ol><li><strong>Write Contract:</strong> Create Solidity code</li><li><strong>Compile:</strong> Convert to EVM bytecode and ABI</li><li><strong>Prepare Deployment:</strong> Set constructor arguments and gas parameters</li><li><strong>Submit Transaction:</strong> Send deployment transaction with bytecode as data</li><li><strong>Wait for Confirmation:</strong> Transaction is mined into a block</li><li><strong>Contract Address:</strong> Deterministically generated from deployer address and nonce</li></ol><h3>Deployment Tools:</h3><ul><li><strong>Hardhat:</strong> Development environment with testing and deployment</li><li><strong>Truffle:</strong> Development framework and asset pipeline</li><li><strong>Foundry:</strong> Fast, portable toolkit written in Rust</li><li><strong>Remix:</strong> Browser-based IDE with deployment capabilities</li></ul>",
                 order: 1,
             },
         ]);
