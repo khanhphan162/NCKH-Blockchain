@@ -38,7 +38,7 @@ export const Module = ({
                     <LessonButton 
                     key = {lesson.id}
                     id = {lesson.id}
-                    index = {index}
+                    index = {lesson.id}
                     totalCount={lessons.length - 1}
                     current={isCurrent}
                     locked={isLocked}
