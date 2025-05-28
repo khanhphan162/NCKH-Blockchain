@@ -101,6 +101,7 @@ async function scanBatch() {
       blockNumber: Number(log.blockNumber),
       amount: tokenId.toString(),
       timestamp: new Date().toISOString(),
+      uri: uri,
     });
 
     const user = await db.query.userProgress.findFirst({

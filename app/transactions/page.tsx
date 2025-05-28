@@ -6,8 +6,6 @@ import { eq } from "drizzle-orm";
 export default async function TransactionsPage() {
   const { userId } = await auth();
 
-  console.log("userId>>>>>>>>",userId);
-
   if (!userId) {
     return <div className="p-4">Unauthorized</div>;
   }

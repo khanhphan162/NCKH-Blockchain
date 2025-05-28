@@ -144,4 +144,5 @@ export const transactions = pgTable("transactions", {
     blockNumber: integer("block_number").notNull(),
     amount: text("amount").notNull(),              // lưu số token hoặc tokenId
     timestamp: text("timestamp").notNull(),
+    uri: text("uri"),
 });

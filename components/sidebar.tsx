@@ -38,7 +38,7 @@ export const Sidebar = ({ className }: Props) => {
                 />
                 <SidebarItem
                     label="Certificates"
-                    href="/3"
+                    href="/certificates"
                     iconSrc="/logo.png"
                 />
 
