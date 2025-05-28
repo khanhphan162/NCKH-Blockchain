@@ -14,7 +14,8 @@
     "db:seed": "tsx ./scripts/seed.ts",
     "db:seed2": "tsx ./scripts/seed2.ts",
     "db:seed3": "tsx ./scripts/seed3.ts",
-    "db:seed4": "tsx ./scripts/seed4.ts"
+    "db:seed4": "tsx ./scripts/seed4.ts",
+    "db:seed5": "tsx ./scripts/seed5.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.5.1",
