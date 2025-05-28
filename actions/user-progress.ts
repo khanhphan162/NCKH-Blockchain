@@ -115,6 +115,4 @@ export const markCourseAsCompleted = async () => {
     await db.update(userProgress).set({
         completed: true,
     }).where(eq(userProgress.userId, userId));
-
-    revalidatePath("/learn");
 };
